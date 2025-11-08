@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 import Card from './shared/Card';
 import { FaTimes } from 'react-icons/fa';
-function FeedbackItem({ item }) {
-	const handleClick = (id) => {};
+
+function FeedbackItem({ item, handleDelete }) {
+	const handleClick = (id) => {
+		handleDelete(id);
+	};
 	return (
 		<Card>
 			<div className='num-display'>{item.rating}</div>
@@ -21,6 +24,7 @@ FeedbackItem.propTypes = {
 		rating: PropTypes.number.isRequired,
 		text: PropTypes.string.isRequired,
 	}).isRequired,
+	handleDelete: PropTypes.func.isRequired,
 };
 
 export default FeedbackItem;
