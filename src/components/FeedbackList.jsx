@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { AnimatePresence, motion } from 'framer-motion';
 import FeedbackItem from './FeedbackItem';
 
 function FeedbackList({ feedback, handleDelete }) {
@@ -7,9 +8,19 @@ function FeedbackList({ feedback, handleDelete }) {
 	}
 	return (
 		<div className='feedback-list'>
-			{feedback.map((item) => (
-				<FeedbackItem key={item.id} item={item} handleDelete={handleDelete} />
-			))}
+			<AnimatePresence>
+				{feedback.map((item) => (
+					<motion.div
+						key={item.id}
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -20 }}
+						transition={{ duration: 0.2 }}
+					>
+						<FeedbackItem item={item} handleDelete={handleDelete} />
+					</motion.div>
+				))}
+			</AnimatePresence>
 		</div>
 	);
 }
@@ -17,7 +28,7 @@ function FeedbackList({ feedback, handleDelete }) {
 FeedbackList.propTypes = {
 	feedback: PropTypes.arrayOf(
 		PropTypes.shape({
-			id: PropTypes.number.isRequired,
+			id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 			rating: PropTypes.number.isRequired,
 			text: PropTypes.string.isRequired,
 		})
